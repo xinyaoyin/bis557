@@ -12,8 +12,8 @@
 linear_model <- function(formula, data) {
   # Your code here.
 
-X = model.matrix(formula, data)
-Y = data$Sepal.Length
+X <- model.matrix(formula, data)
+Y <- data$Sepal.Length
  
  my_lm = function(Y, X) {
   beta <- solve((t(X) %*% X)) %*% t(X) %*% Y
