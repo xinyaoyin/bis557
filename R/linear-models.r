@@ -9,22 +9,30 @@
 #' fit <- linear_model(Sepal.Length ~., iris)
 #' summary(fit)
 #' @export
+  
 linear_model <- function(formula, data) {
-  # Your code here.
+  #Your code here.
+  
+  X = model.matrix(formula, data)
+  Y<-model.frame(formula, data)[,1]
+  
+  QR <- qr(X)
+  beta <- solve.qr(QR, Y) 
+  
+  l <- list()
+  l$coefficients <- beta
 
-X = model.matrix(formula, data)
-Y = data$Sepal.Length
- 
- my_lm = function(Y, X) {
-  beta <- solve((t(X) %*% X)) %*% t(X) %*% Y
-  sigma_squared = sum((Y - X%*%beta)^2)/(nrow(X) - ncol(X))
-  XTX = t(X) %*% X
-  XTXI = diag(solve(XTX))
-  se_beta = sqrt(XTXI * sigma_squared) 
-  t_score = (beta)/(se_beta)
-  p_value = 2 * pt(-t_score, df = nrow(X) - ncol(X))
-  result = cbind(beta,se_beta,t_score,p_value)
-  colnames(result) = c("Estimate", "Std. Error",   "t value","Pr(>|t|)")
-  return(result)  
+  v1 <- unlist(l)
+  l <- relist(replace(v1, v1==0, NA), skeleton=l)
+  
+  names(l$coefficients) <- c("(Intercept)", "x1","x2")
+  class(l) <- "lm"
+  
+  return(l)
 }
-}
+
+# test the model
+linear_model(y~.,lm_patho)
+
+# compare results to lm
+lm(y~., lm_patho)
