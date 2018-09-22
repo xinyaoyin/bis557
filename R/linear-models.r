@@ -30,9 +30,3 @@ linear_model <- function(formula, data) {
   
   return(l)
 }
-
-# test the model
-linear_model(y~.,lm_patho)
-
-# compare results to lm
-lm(y~., lm_patho)
