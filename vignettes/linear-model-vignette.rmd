@@ -8,7 +8,7 @@ output:
     toc: true
 ---
 <!--
-%\VignetteEngine{knitr::rmarkdown}
+%\VignetteEngine{rmarkdown::render}
 %\VignetteIndexEntry{The linear model vignette}
 -->
 
