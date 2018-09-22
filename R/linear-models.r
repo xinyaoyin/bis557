@@ -22,10 +22,10 @@ linear_model <- function(formula, data) {
   l <- list()
   l$coefficients <- beta
 
-  m <- rapply(l,function(x) ifelse(x==0,NA,x), how = "replace")
+  k <- rapply(l,function(x) ifelse(x==0,NA,x), how = "replace")
   
-  names(m$coefficients) <- c("(Intercept)", "x1","x2")
-  class(m) <- "lm"
+  names(k$coefficients) <- c("(Intercept)", "x1","x2")
+  class(k) <- "lm"
   
-  return(m)
+  return(k)
 }
