@@ -23,7 +23,7 @@ linear_model <- function(formula, data) {
   l$coefficients <- beta
 
   v1 <- unlist(l)
-  l <- relist(replace(v1, v1==0, NA), skeleton=l)
+  l <- relist(replace(x, x==0, NA), skeleton=l)
   
   names(l$coefficients) <- c("(Intercept)", "x1","x2")
   class(l) <- "lm"
