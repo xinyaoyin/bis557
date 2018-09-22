@@ -9,7 +9,7 @@
 #' fit <- linear_model(Sepal.Length ~., iris)
 #' summary(fit)
 #' @export
-  
+
 linear_model <- function(formula, data) {
   #Your code here.
   
@@ -22,11 +22,10 @@ linear_model <- function(formula, data) {
   l <- list()
   l$coefficients <- beta
 
-  v1 <- unlist(l)
-  l <- relist(replace(v1, v1==0, NA), skeleton=l)
+  m <- rapply(l,function(x) ifelse(x==0,NA,x), how = "replace")
   
-  names(l$coefficients) <- c("(Intercept)", "x1","x2")
-  class(l) <- "lm"
+  names(m$coefficients) <- c("(Intercept)", "x1","x2")
+  class(m) <- "lm"
   
-  return(l)
+  return(m)
 }
