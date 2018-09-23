@@ -25,9 +25,11 @@ linear_model <- function(formula, data) {
    beta <- solve.qr(QR, Y) 
    beta[which(beta==0)] <- NA
 
- # Put beta into a list and set the class to lm (Discussed with Patty Zhang)
+ # Put beta into a list and set the class to lm (discussed with Patty Zhang)
   
-   l = list(coefficients = beta, residals = X %*% beta, fitted.values = Y - X %*% beta, rank = ncol(X), df.residual = nrow(X) - ncol(X), call = call('lm', formula),  weights = NULL, y = Y, x = X, model = formula, na.action = NA, qr = qr(X),terms = terms(x = formula, data = data))
+   l = list(coefficients = beta, residals = X %*% beta, fitted.values = Y - X %*% beta, rank = ncol(X),
+   df.residual = nrow(X) - ncol(X), call = call('lm', formula),  weights = NULL, y = Y, x = X,   
+   model = formula, na.action = NA, qr = qr(X),terms = terms(x = formula, data = data))
 
   class(l) <- "lm"
   
