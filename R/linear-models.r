@@ -1,4 +1,3 @@
-
 #' Fit a linear model
 #'
 #' @description This function passes parameters to the lm function.
@@ -13,42 +12,25 @@
 
 linear_model <- function(formula, data) {
 
-  #get the design matrix X
+ # Construct Design Matrix X
+   X<-model.matrix(formula, data)
 
-  X<-model.matrix(formula, data)
+ # Get Response Variable Y which is the first column of every dataset 
+   Y<-model.frame(formula, data)[,1]
 
+ # Use QR decomposition to decompose the matrix X 
+   QR <- qr(X)
   
+ # Calculate the beta  
+   beta <- solve.qr(QR, Y) 
+   beta[which(beta==0)] <- NA
 
-  #extract the response variable Y from the above matrix
-
-  #since for every matrix, Y variable is the first cololum, we get
-
-  var<-all.vars(formula)
-
-  Y<-data[,var[1]]
-
-  QR <- qr(X)
-  beta <- solve.qr(QR, Y) 
+ # Put beta into a list and set the class to lm (Discussed with Patty Zhang)
   
-beta[which(beta==0)] <- NA
+   l = list(coefficients = beta, residals = X %*% beta, fitted.values = Y - X %*% beta, rank = ncol(X), df.residual = nrow(X) - ncol(X), call = call('lm', formula),  weights = NULL, y = Y, x = X, model = formula, na.action = NA, qr = qr(X),terms = terms(x = formula, data = data))
 
+  class(l) <- "lm"
   
-  lm_result = list(
-
-    coefficients = beta, residals = X %*% beta, fitted.values = Y - X %*% beta, rank = ncol(X), 
-
-    df.residual = nrow(X) - ncol(X), call = call('lm', formula),  weights = NULL,
-
-    y = Y, x = X, model = formula, na.action = NA, qr = qr(X),
-
-    terms = terms(x = formula, data = data), contrasts = NA, xlevels = NA, offset = NA
-
-    )
-
-  
-
-  class(lm_result) <- "lm"
-  
-  return(lm_result)
+ # Return the result 
+  return(l)
 }
-
