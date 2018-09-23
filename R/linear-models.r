@@ -10,22 +10,45 @@
 #' summary(fit)
 #' @export
 
+
 linear_model <- function(formula, data) {
-  #Your code here.
+
+  #get the design matrix X
+
+  X<-model.matrix(formula, data)
+
   
-  X = model.matrix(formula, data)
-  Y<-model.frame(formula, data)[,1]
-  
+
+  #extract the response variable Y from the above matrix
+
+  #since for every matrix, Y variable is the first cololum, we get
+
+  var<-all.vars(formula)
+
+  Y<-data[,var[1]]
+
   QR <- qr(X)
   beta <- solve.qr(QR, Y) 
   
-  l <- list()
-  l$coefficients <- beta
+beta[which(beta==0)] <- NA
 
-  k <- rapply(l,function(x) ifelse(x==0,NA,x), how = "replace")
   
-  names(k$coefficients) <- c("(Intercept)", "x1","x2")
-  class(k) <- "lm"
+  lm_result = list(
+
+    coefficients = beta, residals = X %*% beta, fitted.values = Y - X %*% beta, rank = ncol(X), 
+
+    df.residual = nrow(X) - ncol(X), call = call('lm', formula),  weights = NULL,
+
+    y = Y, x = X, model = formula, na.action = NA, qr = qr(X),
+
+    terms = terms(x = formula, data = data), contrasts = NA, xlevels = NA, offset = NA
+
+    )
+
   
-  return(k)
+
+  class(lm_result) <- "lm"
+  
+  return(lm_result)
 }
+
