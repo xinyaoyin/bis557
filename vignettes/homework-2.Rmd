@@ -1,0 +1,79 @@
+---
+title: "Ridge Regression Model"
+author: "Xinyao Yin"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The ridge regression vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## The ridge regression function
+
+Ridge Regression is a technique for analyzing multiple regression data that suffer from multicollinearity. When multicollinearity occurs, least squares estimates are unbiased, but their variances are large so they may be far from the true value. By adding a degree of bias to the regression estimates, ridge regression reduces the standard errors. It is hoped that the net effect will be to give estimates that are more reliable.
+
+
+## Test ridge regression 
+
+Test ridge regression on the iris dataset 
+```{r}
+library(bis557)
+fit <- ridge_reg(Sepal.Length ~ .,1.2121, iris)
+fit
+```
+
+## Look at effect on the out-of-sample mean square error as $\lambda$ varies
+
+Datasets
+```{r}
+data("ridge_train")
+data("ridge_test")
+```
+
+Determine the range of λ values 
+```{r}
+# use svd to calculate singular values 
+m <-model.matrix(y ~.,ridge_train)
+svd_obj <- svd(x)
+U <- svd_obj$u
+V <- svd_obj$v
+svals <- svd_obj$d
+
+# get the range of reasonable lambda values 
+l_range <- range(svals)^2
+```
+
+Based on the estimation, we pick λ values from 0 to 650 to see the effect on the out-of-sample mean square error as λ varies.
+
+```{r}
+library(foreach)
+library(doParallel)
+
+# get the predicted values using ridge regression
+# (function reference to class notes)
+predict.ridge_reg <- function(object, ...){
+  newdata <- list(...)[[1]]
+  m <- model.matrix(object$form,newdata)
+  m %*% object$coefficients
+}
+
+# set lambda values 
+l_lambda <- seq(0, 650, by=0.1)
+
+# calculate MSE (reference to class notes)
+mse <- foreach(lambda = l_lambda, .combine = c, .export = c("predict.ridge_reg")) %dopar% {
+fit <- ridge_reg(y~., lambda, ridge_train)
+error <- ridge_test$y - predict(fit, ridge_test)
+mean(error^2) 
+}
+
+
+# plot MSE against log(lambda) 
+plot(mse~log(l_lambda), xlab = "log(lambda)", ylab = "out-of-sample MSE", main = "Out-of-sample mean square error vs. log(lambda)", type = "l")
+
+# find the lambda value that minimizes the out-of-sample MSE
+l_lambda[which(mse == min(mse))]
+```
+By looking at the effect on the out-of-sample mean square error as λ
+varies, we find that the MSE is minimized when λ = 29.7. 
