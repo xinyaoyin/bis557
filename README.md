@@ -23,4 +23,4 @@ library(bis557)
 fit <- ridge_reg(Sepal.Length ~ .,1.2121, iris)
 summary(fit)
 ```
-We've also created a vignette, called homework-2, that looks at effect on the out-of-sample mean square error as ? varies. 
+We've also created a vignette, called homework-2, that looks at effect on the out-of-sample mean square error as lambda varies. 
