@@ -52,12 +52,12 @@ fit
 
 Load datasets and libraries
 ```{r}
-ridge_train <- read.csv("/Users/graceyin/Desktop/bis557/data-raw/ridge_train.csv")
-ridge_test <- read.csv("/Users/graceyin/Desktop/bis557/data-raw/ridge_test.csv")
-
 library(MASS)
 library(foreach)
 library(doParallel)
+
+data("ridge_train")
+data("ridge_test")
 ```
 
 Determine the range of λ values 
