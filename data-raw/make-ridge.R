@@ -1,4 +1,4 @@
-# add new data sets
+# add new datasets
 setwd("~/Desktop/bis557/data-raw")
 
 # read in datasets 
