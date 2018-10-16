@@ -18,6 +18,27 @@ output:
 Ridge Regression is a technique for analyzing multiple regression data that suffer from multicollinearity. When multicollinearity occurs, least squares estimates are unbiased, but their variances are large so they may be far from the true value. By adding a degree of bias to the regression estimates, ridge regression reduces the standard errors. It is hoped that the net effect will be to give estimates that are more reliable.
 
 
+```{r}
+ridge_reg <- function(formula, lambda, data){
+  rownames(data) <- NULL
+  m <- model.matrix(formula,data)
+  y <- matrix(data[,as.character(formula)[2]], ncol=1)
+  y<- y[as.numeric(rownames(m)),, drop = FALSE]
+   
+  svd_obj <- svd(m)
+  U <- svd_obj$u
+  V <- svd_obj$v
+svals <- svd_obj$d
+
+D <- diag(svals / (svals^2 + lambda))
+beta <- V%*% D %*% t(U) %*% y
+rownames(beta)<- colnames(m)
+ret <- list(coefficients = beta, lambda = lambda, form = formula)
+class(ret) <- "ridge_reg"
+ret
+}
+```
+
 ## Test ridge regression 
 
 Test ridge regression on the iris dataset 
@@ -31,12 +52,12 @@ fit
 
 Load datasets and libraries
 ```{r}
+ridge_train <- read.csv("/Users/graceyin/Desktop/bis557/data-raw/ridge_train.csv")
+ridge_test <- read.csv("/Users/graceyin/Desktop/bis557/data-raw/ridge_test.csv")
+
 library(MASS)
 library(foreach)
 library(doParallel)
-
-data("ridge_train")
-data("ridge_test")
 ```
 
 Determine the range of λ values 
@@ -48,7 +69,7 @@ U <- svd_obj$u
 V <- svd_obj$v
 svals <- svd_obj$d
 
-# get the range of reasonable lambda values 
+# get a range of reasonable lambda values 
 l_range <- range(svals)^2
 ```
 
@@ -68,9 +89,9 @@ l_lambda <- seq(0, 650, by=0.1)
 
 # calculate MSE (reference to class notes)
 mse <- foreach(lambda = l_lambda, .combine = c, .export = c("predict.ridge_reg")) %dopar% {
-fit <- ridge_reg(y~., lambda, ridge_train)
-error <- ridge_test$y - predict(fit, ridge_test)
-mean(error^2) 
+  fit <- ridge_reg(y~., lambda, ridge_train)
+  error <- ridge_test$y - predict(fit, ridge_test)
+  mean(error^2) 
 }
 
 

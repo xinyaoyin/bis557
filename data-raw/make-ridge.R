@@ -1,4 +1,6 @@
 # add new data sets
+setwd("~/Desktop/bis557/data-raw")
+
 # read in datasets 
 ridge_train <- read.csv("ridge_train.csv")
 ridge_test <- read.csv("ridge_test.csv")
