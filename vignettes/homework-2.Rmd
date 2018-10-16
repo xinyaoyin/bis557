@@ -29,8 +29,12 @@ fit
 
 ## Look at effect on the out-of-sample mean square error as λ varies
 
-Datasets
+Load datasets and libraries
 ```{r}
+library(MASS)
+library(foreach)
+library(doParallel)
+
 data("ridge_train")
 data("ridge_test")
 ```
@@ -51,9 +55,6 @@ l_range <- range(svals)^2
 Based on the estimation, we pick λ values from 0 to 650 to see the effect on the out-of-sample mean square error as λ varies.
 
 ```{r}
-library(foreach)
-library(doParallel)
-
 # get the predicted values using ridge regression
 # (function reference to class notes)
 predict.ridge_reg <- function(object, ...){
