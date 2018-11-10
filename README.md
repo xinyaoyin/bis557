@@ -24,3 +24,7 @@ fit <- ridge_reg(Sepal.Length ~ .,1.2121, iris)
 summary(fit)
 ```
 We've also created a vignette, called homework-2, that looks at effect on the out-of-sample mean square error as lambda varies. 
+
+
+Homework 3 
+Finished homework 3, constructed Epanechnikov kernel function and tested the KKT conditions for glmnet.
