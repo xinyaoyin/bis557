@@ -58,7 +58,8 @@ for (i in h){
 ## Question 2 (Page 200.3)
 ```{r echo=FALSE, out.width='100%'}
 # embbed pictures into r
-knitr::include_graphics('/Users/graceyin/Desktop/bis557/image/Question 3.jpeg')
+knitr::include_graphics('/Users/graceyin/Desktop/bis557/data-raw/Question 3.jpeg')
+
 ```
 
 
@@ -66,20 +67,20 @@ knitr::include_graphics('/Users/graceyin/Desktop/bis557/image/Question 3.jpeg')
 
 ```{r echo=FALSE, out.width='100%'}
 # embbed pictures into r
-knitr::include_graphics('/Users/graceyin/Desktop/bis557/image/Question 4.jpeg')
+knitr::include_graphics('/Users/graceyin/Desktop/bis557/data-raw/Question 4.jpeg')
 ```
 
 ## Question 4 (Page 200.5)
 
 ```{r echo=FALSE, out.width='100%'}
 # embbed pictures into r
-knitr::include_graphics('/Users/graceyin/Desktop/bis557/image/Question 5.jpeg')
+knitr::include_graphics('/Users/graceyin/Desktop/bis557/data-raw/Question 5.jpeg')
 ```
 
 
 ## Question 5 (Page 200.6)
 
-Check KKT condition  
+Check KKT condition function   
 ```{r}
 #Check current KKT conditions (Reference to Textbook)
 casl_lenet_check_kkt <- function(X, y, b, lambda) {
@@ -101,8 +102,10 @@ library("glmnet")
 
 #Check variables to see if they violate KKT condition
 #x:a numeric data matrix
-#y: response vector
+#y:response vector
 #return alogical vector indicating whether the KKT conditions have been violated
+#If KKT condition is violated, return a vector that contains at least one TRUE
+#If KKT condition is not violated, return a vector of FALSEs
 
 lasso_reg_with_screening <- function(x, y){
   est <- cv.glmnet(x,y,alpha=1)
@@ -111,14 +114,13 @@ lasso_reg_with_screening <- function(x, y){
   print(b)
   casl_lenet_check_kkt(x, y, b, lambda)
 }
-
 ```
 
 Test on the Iris dataset 
 ```{r}
 data("iris")
 x <- scale(model.matrix(Sepal.Length ~. -1, iris))
-y <- scale(iris[,1])
+y <- iris[,1]
 lasso_reg_with_screening(x, y)
 ```
-
+## We get FALSE for all coefficient estimates. This indicates that no KKT condition has been violated. 
