@@ -7,9 +7,9 @@
 \method{\%*\%}{default}()
 }
 \arguments{
-\item{m:}{a sparse matrix}
+\item{a:}{a sparse matrix}
 
-\item{n:}{a sparse matrix}
+\item{b:}{a sparse matrix}
 }
 \value{
 : sum of two sparse matrices

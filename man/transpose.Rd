@@ -7,7 +7,7 @@
 transpose(x, ...)
 }
 \arguments{
-\item{m:}{a sparse matrix}
+\item{a:}{a sparse matrix}
 }
 \value{
 : transpose of a matrix

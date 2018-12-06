@@ -4,12 +4,12 @@
 \alias{\%*\%.sparse.matrix}
 \title{Method of multiplication}
 \usage{
-\method{\%*\%}{sparse.matrix}(m, n)
+\method{\%*\%}{sparse.matrix}(a, b)
 }
 \arguments{
-\item{m:}{a sparse matrix}
+\item{a:}{a sparse matrix}
 
-\item{n:}{a sparse matrix}
+\item{b:}{a sparse matrix}
 }
 \value{
 : product of two sparse matrices

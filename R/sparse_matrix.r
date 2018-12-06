@@ -17,8 +17,8 @@ sparse.matrix <- function(i, j, x, dims = c(max(i), max(j))){
 #' Method of addition 
 #' 
 #' @description: adds two sparse matrices 
-#' @param m: a sparse matrix
-#' @param n: a sparse matrix
+#' @param a: a sparse matrix
+#' @param b: a sparse matrix
 #' @return: sum of two sparse matrices 
 #' @export 
 
@@ -31,38 +31,34 @@ sparse.matrix <- function(i, j, x, dims = c(max(i), max(j))){
   UseMethod("%*%", x)
 }
 
-`+.sparse.matrix` <- function(m, n){
-if (!inherits(n, "sparse.matrix"))
-    stop ("input does not have a class of sparse.matrix")
+`+.sparse.matrix` <- function(a, b){
 
-if (!identical(m[[2]], n[[2]]))
+if (!identical(a[[2]], b[[2]]))
     stop("matrix dimensions don't match")
     
-  matrix <- merge(m[[1]], n[[1]], by = c("i", "j"), all = TRUE, suffixes = c("1", "2"))
+  matrix <- merge(a[[1]], b[[1]], by = c("i", "j"), all = TRUE, suffixes = c("1", "2"))
   matrix$x1[is.na(matrix$x1)] <- 0
   matrix$x2[is.na(matrix$x2)] <- 0
   matrix$x <- matrix$x1 + matrix$x2
   matrix = matrix[, c("i", "j", "x")]
-  sparse.matrix(matrix$i, matrix$j, matrix$x, dims = m[[2]])
+  sparse.matrix(matrix$i, matrix$j, matrix$x, dims = a[[2]])
 }
 
 #' Method of multiplication 
 #' 
 #' @description: multiply two sparse matrices 
-#' @param m: a sparse matrix
-#' @param n: a sparse matrix
+#' @param a: a sparse matrix
+#' @param b: a sparse matrix
 #' @return: product of two sparse matrices 
 #' @export 
 
-`%*%.sparse.matrix` <- function(m, n){
-if (!inherits(n, "sparse.matrix"))
-    stop ("input does not have a class of sparse.matrix")
+`%*%.sparse.matrix` <- function(a, b){
 	
-if ((m[[2]][2] != n[[2]][1]))
+if ((a[[2]][2] != b[[2]][1]))
     stop("matrix dimensions don't match")
       
-  colnames(n[[1]]) <- c("i2", "j2", "x2")
-  matrix <- merge(m[[1]], n[[1]], by.x = "j", by.y = "i2",
+  colnames(b[[1]]) <- c("i2", "j2", "x2")
+  matrix <- merge(a[[1]], b[[1]], by.x = "j", by.y = "i2",
              all = FALSE, suffixes = c("1", "2"))
   matrix$x <- matrix$x * matrix$x2
   matrix$key <- paste(matrix$i, matrix$j, sep = "-")
@@ -71,13 +67,13 @@ if ((m[[2]][2] != n[[2]][1]))
   result <- data.frame(i = sapply(key, getElement, 1),
                   j = sapply(key, getElement, 2),
                   x = as.numeric(x))
-  sparse.matrix(matrix$i, matrix$j, matrix$x, dims = c(m[[2]][1], n[[2]][2]))
+  sparse.matrix(matrix$i, matrix$j, matrix$x, dims = c(a[[2]][1], b[[2]][2]))
 }
 
 #' Method of transpose
 #' 
 #' @description: transpose a sparse matrix
-#' @param m: a sparse matrix
+#' @param a: a sparse matrix
 #' @return: transpose of a matrix 
 #' @export 
 
@@ -85,11 +81,11 @@ transpose <- function (x, ...) {
   UseMethod("transpose", x)
 }
 
-`t.sparse.matrix` <- function(m){
+`t.sparse.matrix` <- function(a){
     
-  l <- m[[1]]$i
-  m[[1]]$i <- m[[1]]$j
-  m[[1]]$j <- l
-  m[[2]] <- rev(m[[2]])
-  return(m)
+  l <- a[[1]]$i
+  a[[1]]$i <- a[[1]]$j
+  a[[1]]$j <- l
+  a[[2]] <- rev(a[[2]])
+  return(a)
 }
