@@ -7,16 +7,16 @@
 sparse.matrix(i, j, x, dims = c(max(i), max(j)))
 }
 \arguments{
-\item{i:}{row index of non-zero elements}
+\item{i}{row index of non-zero elements}
 
-\item{j:}{col index of non-zero elements}
+\item{j}{col index of non-zero elements}
 
-\item{x:}{value of the elements corresponding to i, j}
+\item{x}{value of the elements corresponding to i, j}
 
-\item{dims:}{dimension of the sparse matrix}
+\item{dims}{dimension of the sparse matrix}
 }
 \value{
-:  a sparse.matrix object
+a sparse.matrix object
 }
 \description{
 create a new class sparse.matrix that has add, multiply
