@@ -14,8 +14,8 @@ sparse.matrix <- function(i, j, x, dims = c(max(i), max(j))){
   structure(list(data.frame(i = c(1, 2), j = c(1, 1), x = c(3, 1)), dims), class = "sparse.matrix")
 } 
 
-# %*% is not S3 object
-`%*%.default` = .Primitive("%*%")  # keep defalut
+# set default value 
+`%*%.default` = .Primitive("%*%")  
 `%*%` = function(x,...){ 
   UseMethod("%*%",x)
 }
@@ -33,7 +33,6 @@ sparse.matrix <- function(i, j, x, dims = c(max(i), max(j))){
 `+.sparse.matrix` <- function(m, n){
 
 # check conditions 
- 
 if (!inherits(m, "sparse.matrix"))
     stop ("m is not a sparse.matrix type") 
 if (!inherits(n, "sparse.matrix"))
@@ -58,8 +57,8 @@ if (!identical(m[[2]], n[[2]]))
 
 
 `%*%.sparse.matrix` <- function(m, n){
+	
 # check conditions 
- 
 if (!inherits(m, "sparse.matrix"))
     stop ("m is not a sparse.matrix type") 
 if (!inherits(n, "sparse.matrix"))
@@ -93,7 +92,6 @@ transpose <- function (x, ...) {
 `t.sparse.matrix` <- function(m){
 
 # check conditions 
- 
 if (!inherits(m, "sparse.matrix"))
     stop ("m is not a sparse.matrix type") 
 	
