@@ -60,7 +60,7 @@ From the plots we can see that as the bandwidth becomes larger, the kernel estim
 ## Question 2 (Page 200.3)
 ```{r echo=FALSE, out.width='100%'}
 # embbed pictures into r
-knitr::include_graphics('/Users/graceyin/Desktop/bis557/data-raw/Question 3.jpeg')
+#knitr::include_graphics('/Users/graceyin/Desktop/bis557/data-raw/Question 3.jpeg')
 
 ```
 
@@ -69,14 +69,14 @@ knitr::include_graphics('/Users/graceyin/Desktop/bis557/data-raw/Question 3.jpeg
 
 ```{r echo=FALSE, out.width='100%'}
 # embbed pictures into r
-knitr::include_graphics('/Users/graceyin/Desktop/bis557/data-raw/Question 4.jpeg')
+#knitr::include_graphics('/Users/graceyin/Desktop/bis557/data-raw/Question 4.jpeg')
 ```
 
 ## Question 4 (Page 200.5)
 
 ```{r echo=FALSE, out.width='100%'}
 # embbed pictures into r
-knitr::include_graphics('/Users/graceyin/Desktop/bis557/data-raw/Question 5.jpeg')
+#knitr::include_graphics('/Users/graceyin/Desktop/bis557/data-raw/Question 5.jpeg')
 ```
 
 ## Question 5 (Page 200.6)
