@@ -111,7 +111,7 @@ y_train <- to_categorical(as.matrix(y_train-1), num_classes = 26)
 y_test <- to_categorical(as.matrix(y_test-1), num_classes = 26)
 
 
-# Fit the model 
+# fit the model 
 model <- keras_model_sequential()
 model %>%
   layer_conv_2d(filters = 32, kernel_size = c(2,2),
@@ -157,6 +157,7 @@ Next, we try to improve the model by tuning the parameters. After trying a few c
 
 
 ```{r}
+# fit the new model
 model_2 <- keras_model_sequential()
 model_2 %>%
   layer_conv_2d(filters = 32, kernel_size = c(2.5,2.5),
@@ -200,6 +201,7 @@ As we can see that the classification rates on training and validation datasets 
 
 
 # Question 3
+Discussed with Patty Zhang 
 We know the following functions from CASL textbook:
 ```{r}
 # casl_nn_init_weights API
