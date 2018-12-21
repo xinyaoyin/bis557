@@ -70,7 +70,7 @@ accuracy2
 # out-of-sample accuracy = 0.8592
 ```
 
-From the above results we can see that we have increased the out-of-sample prediction accuracy from 0.8475 to 0.8592. Including more predictive features have increased the out-of-sample prediction accuracy. 
+From the above results we can see that we have increased the out-of-sample prediction accuracy from 0.8475 to 0.8592. Including more predictive features has increased the out-of-sample prediction accuracy. 
 
 
 # Question 2
@@ -153,34 +153,35 @@ print(history)
 ```
 
 
-Next, we try to improve the model by tuning the parameters. After trying a few combinations, I found that using a (3,3) kernel and a dropout rate of 0.4 gives a good improvement. 
+Next, we try to improve the model by tuning the parameters. After trying a few combinations, I found that using a (2.5,2.5) kernel and changing epoches to 6 give a good improvement. 
+
 
 ```{r}
 model_2 <- keras_model_sequential()
 model_2 %>%
-  layer_conv_2d(filters = 32, kernel_size = c(3,3),
+  layer_conv_2d(filters = 32, kernel_size = c(2.5,2.5),
 input_shape = c(28, 28, 1),
                 padding = "same") %>%
 layer_activation(activation = "relu") %>%
-layer_conv_2d(filters = 32, kernel_size = c(3,3),
+layer_conv_2d(filters = 32, kernel_size = c(2.5,2.5),
               padding = "same") %>%
 layer_activation(activation = "relu") %>%
 layer_max_pooling_2d(pool_size = c(2, 2)) %>%
 layer_dropout(rate = 0.2) %>%
-layer_conv_2d(filters = 32, kernel_size = c(3,3),
+layer_conv_2d(filters = 32, kernel_size = c(2.5,2.5),
               padding = "same") %>%
 layer_activation(activation = "relu") %>%
-layer_conv_2d(filters = 32, kernel_size = c(3,3),
+layer_conv_2d(filters = 32, kernel_size = c(2.5,2.5),
 padding = "same") %>%
 layer_activation(activation = "relu") %>%
 layer_max_pooling_2d(pool_size = c(2, 2)) %>%
-layer_dropout(rate = 0.4) %>%
+layer_dropout(rate = 0.5) %>%
 layer_flatten() %>%
 layer_dense(units = 128) %>%
 layer_activation(activation = "relu") %>%
 layer_dense(units = 128) %>%
 layer_activation(activation = "relu") %>%
-layer_dropout(rate = 0.4) %>%
+layer_dropout(rate = 0.5) %>%
 layer_dense(units = 26) %>%
 layer_activation(activation = "softmax")
 
@@ -195,7 +196,7 @@ fit(x_train, y_train, epochs = 6,
 print(history_2)
 ```
 
-As we can see that the model accuracy has improved from 88.26% in the original model to 90.95% in the new model. 
+As we can see that the classification rates on training and validation datasets have improved in the new model.
 
 
 # Question 3
