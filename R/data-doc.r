@@ -28,7 +28,14 @@ NULL
 
 "ridge_test"
 
-
+#' A train data for the fifth homework
+#'
+#' @name emnist
+#' @docType data
+#' @rdname emnist
+#' @description In homework 5 we explore the neural networks
+#' This data set gives us a basis for exploration.
+NULL
 
 
 

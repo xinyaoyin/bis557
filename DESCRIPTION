@@ -6,8 +6,8 @@ Author: Xinyao Yin
 Maintainer: Xinyao Yin <xinyao.yin@yale.edu>
 Description: Assignments, code, and digital artifacts for BIS 557
 License: Apache License 2.0
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Suggests: testthat, knitr, rmarkdown
-Imports: stats, MASS, foreach, doParallel, glmnet
+Imports: stats, MASS, foreach, doParallel, glmnet, ggplot2, keras, doMC
 VignetteBuilder: knitr
 Encoding: UTF-8
